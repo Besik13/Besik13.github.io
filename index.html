@@ -7,7 +7,17 @@
 <body>
   <cast-media-player></cast-media-player>
   <script>
-    cast.framework.CastReceiverContext.getInstance().start();
+    const context = cast.framework.CastReceiverContext.getInstance();
+    const playerManager = context.getPlayerManager();
+    playerManager.setMessageInterceptor(
+    cast.framework.messages.MessageType.LOAD, loadRequestData => {
+      // Specify segment format for an HLS stream playing CMAF packaged content.
+      loadRequestData.media.contentType = 'application/x-mpegurl';
+      loadRequestData.media.hlsSegmentFormat = cast.framework.messages.HlsSegmentFormat.FMP4;
+      loadRequestData.media.hlsVideoSegmentFormat = cast.framework.messages.HlsVideoSegmentFormat.FMP4;
+      return loadRequestData;
+    });
+    context.start();
   </script>
 </body>
 </html>
