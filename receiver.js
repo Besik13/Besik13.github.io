@@ -36,4 +36,7 @@ castDebugLogger.loggerLevelByTags = {
     LOG_TAG: cast.framework.LoggerLevel.DEBUG, // display all levels
 };
 
-context.start();
+let castReceiverOptions = new cast.framework.CastReceiverOptions();
+castReceiverOptions.useShakaForHls = true;
+
+context.start(castReceiverOptions);
