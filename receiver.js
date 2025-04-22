@@ -16,9 +16,9 @@ playerManager.setMessageInterceptor(
 
 // Optional: add event logging
 playerManager.addEventListener(
-  cast.framework.events.EventType.PLAYER_STATE_CHANGED,
+  cast.framework.events.EventType.MEDIA_STATUS,
   event => {
-    console.log(`Player State Changed: ${event.playerState}`);
+    console.log(`Player State Changed: ${event}`);
   }
 );
 
