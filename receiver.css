@@ -1,10 +1,8 @@
 body {
-  --playback-logo-image: url('https://gratisography.com/wp-content/uploads/2025/01/gratisography-dog-vacation-800x525.jpg');
 }
 cast-media-player {
   --theme-hue: 100;
   --progress-color: rgba(255, 255, 255, 0.7);
-  --splash-image: url('https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg');
   --splash-size: cover;
   --background-image: linear-gradient(rgba(115, 119, 217, 1), rgba(181, 101, 202, 1));
 }
