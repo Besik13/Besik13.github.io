@@ -25,10 +25,9 @@
       castDebugLogger.info("MyLog", event);
       const data = event.data;
       if (data.type === 'UPDATE_TITLE') {
-        const media = playerManager.getCurrentMediaInformation();
+        const media = playerManager.getMediaInformation();
         if(media) {
           castDebugLogger.info("MyLog", "try to set title");
-          media.metadata = new chrome.cast.media.GenericMediaMetadata();
           media.metadata.title = data.title;
           playerManager.setMediaInformation(media);
         } else {
