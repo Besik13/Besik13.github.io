@@ -19,6 +19,7 @@
 
     castDebugLogger.setEnabled(true);
     castDebugLogger.showDebugLogs(true);
+    context.setLoggerLevel(cast.framework.LoggerLevel.DEBUG)
     
     context.addCustomMessageListener('urn:x-cast:app.ha.custom', (event) => {
       castDebugLogger.info("MyLog", event);
