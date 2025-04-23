@@ -25,7 +25,7 @@
       castDebugLogger.info("MyLog", event);
       const data = event.data;
       if (data.type === 'UPDATE_TITLE') {
-        document.getElementById('title').textContent = data.title;
+        document.getElementById('castMetadataTitle').textContent = data.title;
       }
     });
     context.start(castReceiverOptions);
