@@ -14,16 +14,6 @@
     const playerManager = context.getPlayerManager();
     let castReceiverOptions = new cast.framework.CastReceiverOptions();
     castReceiverOptions.useShakaForHls = true;
-    castReceiverOptions.shakaConfig = {
-      abs : {
-        supportsMultipleMediaElements: true,
-      },
-      abr: {
-        enabled: false
-      },
-      preferredAudioLabel: "eng_music"
-    };
-
     const castDebugLogger = cast.debug.CastDebugLogger.getInstance();
 
     castDebugLogger.setEnabled(true);
@@ -54,13 +44,16 @@
     playerManager.addEventListener(
       cast.framework.events.EventType.PLAYER_LOAD_COMPLETE, () => {
         castDebugLogger.info("MyLog", "PLAYER_LOAD_COMPLETE");
-        const audioTracksManager = playerManager.getAudioTracksManager();
-
-        // Get all audio tracks
-        const tracks = audioTracksManager.getTracks();
-        castDebugLogger.info("MyLog", tracks);
-        // Choose the first audio track to be active by specifying its ID
-        audioTracksManager.setActiveById(tracks[0].trackId);
+        const audio = playerManager.getMediaInformation().customData?.audio;
+        castDebugLogger.info("MyLog", `audio: ${audio}`);
+        if(audio){
+          const tracks = playerManager.getShakaPlayer().getVariantTracks().filter (item => item.originalAudioId == audio);
+          castDebugLogger.info("MyLog", `tracks: ${tracks}`);
+          if(tracks.length > 0){
+            playerManager.getShakaPlayer().configure({abr: {enabled: false}});
+            playerManager.getShakaPlayer().selectVariantsByLabel("eng_music", true);
+          }
+        }
       });
 
     playerManager.addEventListener(
