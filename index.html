@@ -12,9 +12,6 @@
     playerManager.setMessageInterceptor(
     cast.framework.messages.MessageType.LOAD, loadRequestData => {
       // Specify segment format for an HLS stream playing CMAF packaged content.
-      loadRequestData.media.contentType = 'application/x-mpegurl';
-      loadRequestData.media.hlsSegmentFormat = cast.framework.messages.HlsSegmentFormat.AAC;
-      loadRequestData.media.hlsVideoSegmentFormat = cast.framework.messages.HlsVideoSegmentFormat.FMP4;
       return loadRequestData;
     });
 
