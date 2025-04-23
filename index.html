@@ -34,6 +34,9 @@
         } else {
           castDebugLogger.info("MyLog", "media not found");
         }
+      } else {
+        castDebugLogger.info("MyLog", "data.type invalid");
+        castDebugLogger.info("MyLog", data.type);
       }
     });
     context.start(castReceiverOptions);
