@@ -14,67 +14,48 @@
     const playerManager = context.getPlayerManager();
     let castReceiverOptions = new cast.framework.CastReceiverOptions();
     castReceiverOptions.useShakaForHls = true;
+    
     const castDebugLogger = cast.debug.CastDebugLogger.getInstance();
 
-    castDebugLogger.setEnabled(true);
+    // castDebugLogger.setEnabled(true);
     // castDebugLogger.showDebugLogs(true);
-    context.setLoggerLevel(cast.framework.LoggerLevel.DEBUG)
+    context.setLoggerLevel(cast.framework.LoggerLevel.DEBUG);
     
     context.addCustomMessageListener('urn:x-cast:app.ha.custom', (event) => {
-      castDebugLogger.info("MyLog", event);
+      castDebugLogger.info("ChromecastLog", event);
       const data = event.data;
       if (data.type === 'UPDATE_TITLE') {
         const media = playerManager.getMediaInformation();
         if(media) {
-          castDebugLogger.info("MyLog", "try to set title");
+          castDebugLogger.info("ChromecastLog", "try to set title");
           media.metadata.title = data.title;
           playerManager.setMediaInformation(media);
         } else {
-          castDebugLogger.info("MyLog", "media not found");
+          castDebugLogger.info("ChromecastLog", "media not found");
         }
       }
       if(data.type === 'AUDIO') {
-        castDebugLogger.info("MyLog", "Change audio");
-        const audioTracksManager = playerManager.getAudioTracksManager();
-        // Choose the first audio track to be active by specifying its ID
-        audioTracksManager.setActiveById(data.id);
+        castDebugLogger.info("ChromecastLog", "Change audio");
+        playerManager.getShakaPlayer().configure({abr: {enabled: false}});
+        playerManager.getShakaPlayer().selectVariantsByLabel(data.label, true);
       }
     });
     
     playerManager.addEventListener(
       cast.framework.events.EventType.PLAYER_LOAD_COMPLETE, () => {
-        castDebugLogger.info("MyLog", "PLAYER_LOAD_COMPLETE");
+        castDebugLogger.info("ChromecastLog", "PLAYER_LOAD_COMPLETE");
         const audio = playerManager.getMediaInformation().customData?.audio;
-        castDebugLogger.info("MyLog", `audio: ${audio}`);
+        castDebugLogger.info("ChromecastLog", `audio: ${audio}`);
         if(audio){
           const tracks = playerManager.getShakaPlayer().getVariantTracks().filter (item => item.originalAudioId == audio);
-          castDebugLogger.info("MyLog", `tracks: ${tracks}`);
-          if(tracks.length > 0){
+          castDebugLogger.info("ChromecastLog", `tracks: ${tracks}`);
+          if(tracks.length > 0) {
             playerManager.getShakaPlayer().configure({abr: {enabled: false}});
-            playerManager.getShakaPlayer().selectVariantsByLabel("eng_music", true);
+            playerManager.getShakaPlayer().selectVariantsByLabel(audio, true);
           }
         }
       });
 
-    playerManager.addEventListener(
-      cast.framework.events.EventType.TRACKS_CHANGED, () => {
-        castDebugLogger.info("MyLog", "TRACKS_CHANGED");
-        const audioTracksManager = playerManager.getAudioTracksManager();
-
-        // Get all audio tracks
-        const tracks = audioTracksManager.getTracks();
-        castDebugLogger.info("MyLog", tracks);
-        // Choose the first audio track to be active by specifying its ID
-        audioTracksManager.setActiveById(tracks[0].trackId);
-      });
-
-    // Intercept the EDIT_AUDIO_TRACKS request
-      playerManager.setMessageInterceptor(cast.framework.messages.MessageType.EDIT_AUDIO_TRACKS, request => {
-      // write logic to convert language codes here
-        castDebugLogger.info("MyLog", "EDIT_AUDIO_TRACKS");
-        castDebugLogger.info("MyLog", request);
-        request;
-    });
     context.start(castReceiverOptions);
   </script>
 </body>
