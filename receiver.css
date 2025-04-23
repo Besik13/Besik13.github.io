@@ -6,6 +6,9 @@ cast-media-player {
   --progress-color: rgba(255, 255, 255, 0.7);
   --splash-image: url('https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg');
   --splash-size: cover;
-  --logo-image: url('https://play-lh.googleusercontent.com/l3fhl7bHp15lVbsbUljq5AgT3TLB9mFAfFoIlQ3-pW_CF4Zqs-EnkGHuwrlilAw5lJs');
   --background-image: linear-gradient(rgba(115, 119, 217, 1), rgba(181, 101, 202, 1));
+}
+
+.player {
+  --background: linear-gradient(rgba(115, 119, 217, 1), rgba(181, 101, 202, 1));
 }
