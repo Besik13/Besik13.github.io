@@ -1,5 +1,6 @@
 <html>
 <head>
+  <link rel="stylesheet" href="receiver.css" media="screen" />
   <script type="text/javascript"
       src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js">
   </script>
@@ -9,14 +10,14 @@
   <script>
     const context = cast.framework.CastReceiverContext.getInstance();
     const playerManager = context.getPlayerManager();
-    playerManager.setMessageInterceptor(
-    cast.framework.messages.MessageType.LOAD, loadRequestData => {
-      // Specify segment format for an HLS stream playing CMAF packaged content.
-      return loadRequestData;
-    });
-
     let castReceiverOptions = new cast.framework.CastReceiverOptions();
     castReceiverOptions.useShakaForHls = true;
+    context.addCustomMessageListener('urn:x-cast:app.ha.custom', (event) => {
+      const data = event.data;
+      if (data.type === 'UPDATE_TITLE') {
+        document.getElementById('title').textContent = data.title;
+      }
+    });
     context.start(castReceiverOptions);
   </script>
 </body>
