@@ -38,6 +38,24 @@
         castDebugLogger.info("MyLog", data.type);
       }
     });
+    
+    playerManager.addEventListener(
+      cast.framework.events.EventType.PLAYER_LOAD_COMPLETE, () => {
+        const audioTracksManager = playerManager.getAudioTracksManager();
+
+        // Get all audio tracks
+        const tracks = audioTracksManager.getTracks();
+        castDebugLogger.info("MyLog", tracks);
+        // Choose the first audio track to be active by specifying its ID
+        audioTracksManager.setActiveById(tracks[0].trackId);
+      });
+
+    // Intercept the EDIT_AUDIO_TRACKS request
+      playerManager.setMessageInterceptor(cast.framework.messages.MessageType.EDIT_AUDIO_TRACKS, request => {
+      // write logic to convert language codes here
+        castDebugLogger.info("MyLog", "EDIT_AUDIO_TRACKS");
+        castDebugLogger.info("MyLog", request);
+    });
     context.start(castReceiverOptions);
   </script>
 </body>
