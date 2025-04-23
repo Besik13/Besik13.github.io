@@ -13,15 +13,13 @@
     cast.framework.messages.MessageType.LOAD, loadRequestData => {
       // Specify segment format for an HLS stream playing CMAF packaged content.
       loadRequestData.media.contentType = 'application/x-mpegurl';
-      loadRequestData.media.hlsSegmentFormat = cast.framework.messages.HlsSegmentFormat.FMP4;
+      loadRequestData.media.hlsSegmentFormat = cast.framework.messages.HlsSegmentFormat.AAC;
       loadRequestData.media.hlsVideoSegmentFormat = cast.framework.messages.HlsVideoSegmentFormat.FMP4;
       return loadRequestData;
     });
 
     let castReceiverOptions = new cast.framework.CastReceiverOptions();
     castReceiverOptions.useShakaForHls = true;
-    castReceiverOptions.shakaVersion = "4.13.18";
-    
     context.start(castReceiverOptions);
   </script>
 </body>
