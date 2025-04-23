@@ -25,7 +25,15 @@
       castDebugLogger.info("MyLog", event);
       const data = event.data;
       if (data.type === 'UPDATE_TITLE') {
-        document.getElementsByClassName('metadataTitle').textContent = data.title;
+        const media = playerManager.getCurrentMediaInformation();
+        if(media) {
+          castDebugLogger.info("MyLog", "try to set title");
+          media.metadata = new chrome.cast.media.GenericMediaMetadata();
+          media.metadata.title = data.title;
+          playerManager.setMediaInformation(media);
+        } else {
+          castDebugLogger.info("MyLog", "media not found");
+        }
       }
     });
     context.start(castReceiverOptions);
