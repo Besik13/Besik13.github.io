@@ -41,6 +41,19 @@
     
     playerManager.addEventListener(
       cast.framework.events.EventType.PLAYER_LOAD_COMPLETE, () => {
+        castDebugLogger.info("MyLog", "PLAYER_LOAD_COMPLETE");
+        const audioTracksManager = playerManager.getAudioTracksManager();
+
+        // Get all audio tracks
+        const tracks = audioTracksManager.getTracks();
+        castDebugLogger.info("MyLog", tracks);
+        // Choose the first audio track to be active by specifying its ID
+        audioTracksManager.setActiveById(tracks[0].trackId);
+      });
+
+    playerManager.addEventListener(
+      cast.framework.events.EventType.TRACKS_CHANGED, () => {
+        castDebugLogger.info("MyLog", "TRACKS_CHANGED");
         const audioTracksManager = playerManager.getAudioTracksManager();
 
         // Get all audio tracks
