@@ -14,6 +14,15 @@
     const playerManager = context.getPlayerManager();
     let castReceiverOptions = new cast.framework.CastReceiverOptions();
     castReceiverOptions.useShakaForHls = true;
+    castReceiverOptions.shakaConfig = {
+      abs : {
+        supportsMultipleMediaElements: true,
+      },
+      abr: {
+        enabled: false
+      },
+      preferredAudioLabel: "eng_music"
+    };
 
     const castDebugLogger = cast.debug.CastDebugLogger.getInstance();
 
