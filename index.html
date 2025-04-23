@@ -33,9 +33,12 @@
         } else {
           castDebugLogger.info("MyLog", "media not found");
         }
-      } else {
-        castDebugLogger.info("MyLog", "data.type invalid");
-        castDebugLogger.info("MyLog", data.type);
+      }
+      if(data.type === 'AUDIO') {
+        castDebugLogger.info("MyLog", "Change audio");
+        const audioTracksManager = playerManager.getAudioTracksManager();
+        // Choose the first audio track to be active by specifying its ID
+        audioTracksManager.setActiveById(data.id);
       }
     });
     
