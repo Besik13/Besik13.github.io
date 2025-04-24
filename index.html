@@ -34,7 +34,7 @@
           castDebugLogger.info("ChromecastLog", "media not found");
         }
       }
-      if(data.type === 'AUDIO') {
+      if(data.type === 'AUDIO_SWITCH') {
         castDebugLogger.info("ChromecastLog", "Change audio");
         // playerManager.getShakaPlayer().configure({abr: {enabled: false}});
         playerManager.getShakaPlayer().selectVariantsByLabel(data.audio, true);
