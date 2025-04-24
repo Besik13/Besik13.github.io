@@ -37,7 +37,7 @@
       if(data.type === 'AUDIO') {
         castDebugLogger.info("ChromecastLog", "Change audio");
         // playerManager.getShakaPlayer().configure({abr: {enabled: false}});
-        playerManager.getShakaPlayer().selectVariantsByLabel(data.label, true);
+        playerManager.getShakaPlayer().selectVariantsByLabel(data.audio, true);
       }
     });
     
