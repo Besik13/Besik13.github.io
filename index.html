@@ -36,7 +36,7 @@
       }
       if(data.type === 'AUDIO') {
         castDebugLogger.info("ChromecastLog", "Change audio");
-        playerManager.getShakaPlayer().configure({abr: {enabled: false}});
+        // playerManager.getShakaPlayer().configure({abr: {enabled: false}});
         playerManager.getShakaPlayer().selectVariantsByLabel(data.label, true);
       }
     });
@@ -50,7 +50,7 @@
           const tracks = playerManager.getShakaPlayer().getVariantTracks().filter (item => item.originalAudioId == audio);
           castDebugLogger.info("ChromecastLog", `tracks: ${tracks}`);
           if(tracks.length > 0) {
-            playerManager.getShakaPlayer().configure({abr: {enabled: false}});
+            // playerManager.getShakaPlayer().configure({abr: {enabled: false}});
             playerManager.getShakaPlayer().selectVariantsByLabel(audio, true);
           }
         }
