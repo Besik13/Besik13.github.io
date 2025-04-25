@@ -8,7 +8,6 @@ cast-media-player {
   --background-image: linear-gradient(rgba(115, 119, 217, 1), rgba(181, 101, 202, 1));
   --pause-image: url('img/play_btn.png');
   --play-image: url('img/pause_btn.png');
-  --buffering-image: url('img/buffering.png')
   --splash-image: url('img/logo.png');
   --logo-image: url('img/logo.png');
 }
