@@ -1,42 +1,46 @@
 const context = cast.framework.CastReceiverContext.getInstance();
-
 const playerManager = context.getPlayerManager();
 
-// Debug Logger
+
 const castDebugLogger = cast.debug.CastDebugLogger.getInstance();
-const LOG_TAG = 'MyAPP.LOG';
 
-// Enable HLS playback
-playerManager.setMessageInterceptor(
-  cast.framework.messages.MessageType.LOAD,
-  loadRequestData => {
-    console.log('Received LOAD request');
-    if (loadRequestData.media.contentType === 'application/x-mpegURL') {
-      console.log('HLS stream detected');
+// castDebugLogger.setEnabled(true);
+// castDebugLogger.showDebugLogs(true);
+context.setLoggerLevel(cast.framework.LoggerLevel.DEBUG);
+
+context.addCustomMessageListener('urn:x-cast:app.ha.custom', (event) => {
+    castDebugLogger.info("ChromecastLog", event);
+    const data = event.data;
+    if (data.type === 'UPDATE_TITLE') {
+        const media = playerManager.getMediaInformation();
+        if (media) {
+            castDebugLogger.info("ChromecastLog", "try to set title");
+            media.metadata.title = data.title;
+            playerManager.setMediaInformation(media);
+        } else {
+            castDebugLogger.info("ChromecastLog", "media not found");
+        }
     }
-    return loadRequestData;
-  }
-);
-
-// Enable debug logger and show a 'DEBUG MODE' overlay at top left corner.
-context.addEventListener(cast.framework.system.EventType.READY, () => {
-  if (!castDebugLogger.debugOverlayElement_) {
-      castDebugLogger.setEnabled(true);
-  }
+    if (data.type === 'AUDIO_SWITCH') {
+        castDebugLogger.info("ChromecastLog", "Change audio");
+        playerManager.getShakaPlayer().selectVariantsByLabel(data.audio, true);
+    }
 });
 
-// Set verbosity level for Core events.
-castDebugLogger.loggerLevelByEvents = {
-  'cast.framework.events.category.CORE': cast.framework.LoggerLevel.INFO,
-  'cast.framework.events.EventType.MEDIA_STATUS': cast.framework.LoggerLevel.DEBUG
-};
-
-// Set verbosity level for custom tags.
-castDebugLogger.loggerLevelByTags = {
-    LOG_TAG: cast.framework.LoggerLevel.DEBUG, // display all levels
-};
+playerManager.addEventListener(
+    cast.framework.events.EventType.PLAYER_LOAD_COMPLETE, () => {
+        castDebugLogger.info("ChromecastLog", "PLAYER_LOAD_COMPLETE");
+        const audio = playerManager.getMediaInformation().customData?.audio;
+        castDebugLogger.info("ChromecastLog", `audio: ${audio}`);
+        if (audio) {
+            const tracks = playerManager.getShakaPlayer().getVariantTracks().filter(item => item.originalAudioId == audio);
+            castDebugLogger.info("ChromecastLog", `tracks: ${tracks}`);
+            if (tracks.length > 0) {
+                playerManager.getShakaPlayer().selectVariantsByLabel(audio, true);
+            }
+        }
+    });
 
 let castReceiverOptions = new cast.framework.CastReceiverOptions();
 castReceiverOptions.useShakaForHls = true;
-
 context.start(castReceiverOptions);
