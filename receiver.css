@@ -9,6 +9,8 @@ cast-media-player {
   --pause-image: url('img/play_btn.png');
   --play-image: url('img/pause_btn.png');
   --splash-image: url('img/logo.png');
+  --splash-size: contain;
+  --splash-repeat: no-repeat;
   --logo-image: url('img/logo.png');
 }
 
