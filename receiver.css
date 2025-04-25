@@ -3,15 +3,15 @@ body {
 cast-media-player {
   --theme-hue: 100;
   --progress-color: rgba(255, 255, 255, 0.7);
-  --splash-size: cover;
   --background: linear-gradient(rgba(115, 119, 217, 1), rgba(181, 101, 202, 1));
   --background-image: linear-gradient(rgba(115, 119, 217, 1), rgba(181, 101, 202, 1));
   --pause-image: url('img/play_btn.png');
   --play-image: url('img/pause_btn.png');
   --splash-image: url('img/logo.png');
-  --splash-size: 944px 216px;
+  --splash-size: 50%;
   --splash-repeat: no-repeat;
   --logo-image: url('img/logo.png');
+  --logo-size: 50%;
 }
 
 .player {
